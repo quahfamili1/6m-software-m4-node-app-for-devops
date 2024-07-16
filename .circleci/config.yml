@@ -40,8 +40,8 @@ jobs:
           echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
           docker push $DOCKER_USERNAME/$DOCKER_IMAGE_NAME:$CIRCLE_SHA1
     environment:
-      DOCKER_USERNAME: education-space
-      DOCKER_IMAGE_NAME: new-app
+      DOCKER_USERNAME: quahfamili
+      DOCKER_IMAGE_NAME: education-space
 
 workflows:
   simpleworkflow:

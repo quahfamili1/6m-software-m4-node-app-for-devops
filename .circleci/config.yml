@@ -26,6 +26,22 @@ jobs:
           echo "Running tests..."
           npm run test
 
+build-and-push:
+  docker:
+    - image: cimg/node:16.10
+  steps:
+    - checkout
+    - node/install-packages:
+        pkg-manager: npm
+    - run: |
+        echo "Building and pushing Docker image..."
+        docker build -t $DOCKER_USERNAME/$DOCKER_IMAGE_NAME:$CIRCLE_SHA1 .
+        echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+        docker push $DOCKER_USERNAME/$DOCKER_IMAGE_NAME:$CIRCLE_SHA1
+  environment:
+    DOCKER_USERNAME: education-space
+    DOCKER_IMAGE_NAME: my-app
+
 workflows:
   simpleworkflow:
     jobs:
@@ -33,5 +49,9 @@ workflows:
       - test:
           requires:
             - build
+      - build-and-push:
+          requires:
+            - test
 
- 
+
+            

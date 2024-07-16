@@ -41,7 +41,7 @@ jobs:
           docker push $DOCKER_USERNAME/$DOCKER_IMAGE_NAME:$CIRCLE_SHA1
     environment:
       DOCKER_USERNAME: quahfamili
-      DOCKER_IMAGE_NAME: education-space
+      DOCKER_IMAGE_NAME: education-space 
 
 workflows:
   simpleworkflow:

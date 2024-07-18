@@ -39,6 +39,21 @@ jobs:
       - docker/push:
           image: quahfamili/education-space
 
+  deploy:
+    docker:
+      - image: cimg/node:16.10
+    steps:
+      - setup_remote_docker
+      - heroku/install
+      - checkout
+      - run: 
+          name: Deploy to Heroku
+          command: |
+          echo "Deploying to Heroku..."
+          heroku container:login
+          heroku stack:set container -a alan-su-devops
+          heroku container:push web -a alan-su-devops
+          heroku container:release web -a alan-su-devops
 
 workflows:
   simpleworkflow:
@@ -50,6 +65,9 @@ workflows:
       - publish:
           requires:
             - test
+      - deploy:
+          requires:
+            - publish
 
 
             

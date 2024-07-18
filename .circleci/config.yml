@@ -47,12 +47,12 @@ jobs:
       - heroku/install
       - checkout
       - run: 
-          name: Deploy to Heroku
+          name: Heroku Container Push
           command: |
-          heroku container:login
-          heroku stack:set container -a alan-su-devops
-          heroku container:push web -a alan-su-devops
-          heroku container:release web -a alan-su-devops
+              heroku container:login
+              heroku stack:set container -a alan-su-devops
+              heroku container:push web -a alan-su-devops
+              heroku container:release web -a alan-su-devops
 
 workflows:
   simpleworkflow:

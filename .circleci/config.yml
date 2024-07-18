@@ -2,7 +2,8 @@ version: 2.1
 
 orbs:
   node: circleci/node@5.0.1
-  docker: circleci/docker@2.6.0
+  docker: circleci/docker@2.1.4
+  heroku: circleci/heroku@2.0.0
 
 jobs:
   build:
@@ -27,22 +28,17 @@ jobs:
           echo "Running tests..."
           npm run test
 
-  build-and-push:
-    docker:
-      - image: cimg/node:16.10
+  publish:
+    executor: docker/docker
     steps:
+      - setup_remote_docker
       - checkout
-      - node/install-packages:
-          pkg-manager: npm
-      - run: |
-          echo "Building and pushing Docker image..."
-          docker build -t $DOCKER_USERNAME/$DOCKER_IMAGE_NAME:$CIRCLE_SHA1 .
-          echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-          docker push $DOCKER_USERNAME/$DOCKER_IMAGE_NAME:$CIRCLE_SHA1
-    environment:
-      DOCKER_USERNAME: quahfamili
-      DOCKER_IMAGE_NAME: education-space 
-      DOCKER_PASSWORD : @#Bb514417
+      - docker/check
+      - docker/build:
+          image: quahfamili/education-space
+      - docker/push:
+          image: quahfamili/education-space
+
 
 workflows:
   simpleworkflow:
@@ -51,7 +47,7 @@ workflows:
       - test:
           requires:
             - build
-      - build-and-push:
+      - publish:
           requires:
             - test
 

@@ -49,7 +49,6 @@ jobs:
       - run: 
           name: Deploy to Heroku
           command: |
-          echo "Deploying to Heroku..."
           heroku container:login
           heroku stack:set container -a alan-su-devops
           heroku container:push web -a alan-su-devops

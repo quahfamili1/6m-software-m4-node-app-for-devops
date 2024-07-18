@@ -42,6 +42,7 @@ jobs:
     environment:
       DOCKER_USERNAME: quahfamili
       DOCKER_IMAGE_NAME: education-space 
+      DOCKER_PASSWORD : @#Bb514417
 
 workflows:
   simpleworkflow:
